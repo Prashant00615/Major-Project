@@ -61,14 +61,12 @@ module.exports.createListing = async (req, res, next) => {
     //        console.log(response.body.features[0].geometry);
     //        res.send("done");
 
-    let url = req.file.path;
-    let filename = req.file.filename;   
+    let url = req.file ? req.file.path : "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=800&q=60";
+    let filename = req.file ? req.file.filename : "defaultimage";   
 
     const newListing = new Listing(req.body.listing);
     newListing.owner = req.user._id;
     newListing.image = {url, filename};
-
-    // newListing.geometry = response.body.features[0].geometry;
 
     let savedListing = await newListing.save();
     console.log(savedListing);
