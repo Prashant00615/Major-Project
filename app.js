@@ -21,8 +21,9 @@ const User = require("./models/user.js");
 const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
+const aiRouter = require("./routes/ai.js");
 
-const dbUrl = process.env.ATLASDB_URL;
+const dbUrl = process.env.ATLASDB_URL || "mongodb://127.0.0.1:27017/wanderlust";
 
 main().then(() => {
     console.log("connected to db");
@@ -34,6 +35,7 @@ async function main() {
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride('_method'))
 app.engine("ejs", ejsMate);
@@ -43,19 +45,19 @@ app.use(express.static(path.join(__dirname, "/public")));
 const store = MongoStore.create({
     mongoUrl: dbUrl,
     crypto: {
-        secret: process.env.SECRET,
+        secret: process.env.SECRET || "mysupersecretcode",
     },
     touchAfter: 24 * 3600,
 });
 
-store.on("error", () => {
+store.on("error", (err) => {
     console.log("ERROR in MONGO SESSION STORE", err);
 });
 
 
 const sessionOption = {
     store,
-    secret: process.env.SECRET,
+    secret: process.env.SECRET || "mysupersecretcode",
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -65,9 +67,9 @@ const sessionOption = {
     }
 };
 
-// app.get("/", (req, res) => {
-//     res.send("Hi, I am root");
-// })
+app.get("/", (req, res) => {
+    res.redirect("/listings");
+});
 
 app.use(session(sessionOption));
 app.use(flash());
@@ -96,9 +98,18 @@ app.use((req, res, next) => {
 //     res.send(registeredUser);
 // })
 
+app.get("/privacy", (req, res) => {
+    res.render("privacy.ejs");
+});
+
+app.get("/terms", (req, res) => {
+    res.render("terms.ejs");
+});
+
+app.use("/api/ai", aiRouter);
 app.use("/listings", listingRouter);
-app.use("/listings/:id/reviews", reviewRouter)
-app.use("/", userRouter)
+app.use("/listings/:id/reviews", reviewRouter);
+app.use("/", userRouter);
 
 app.all("*", (req, res, next) => {
     next(new ExpressError(404, "Page Not Found!"));
@@ -110,6 +121,7 @@ app.use((err, req, res, next) => {
     // res.status(statusCode).send(message);
 })
 
-app.listen(8080, (req, res) => {
-    console.log("app is listening on port 8080");
-})
+const port = process.env.PORT || 8080;
+app.listen(port, () => {
+    console.log(`app is listening on port ${port}`);
+});

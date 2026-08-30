@@ -1,8 +1,8 @@
 <% layout("/layouts/boilerplate") %>
 <body>
-    <div class="row mt-3">
-        <div class="col-8 offset-2">
-    <h2>Edit your listings</h2>
+<div class="row mt-4">
+    <div class="col-12 col-md-10 col-lg-8 offset-md-1 offset-lg-2">
+    <h2 class="mb-3"><i class="fa-solid fa-pen-to-square me-2 text-danger"></i>Edit your listing</h2>
     <Form method="POST" action="/listings/<%= listing._id%>?_method=PUT" novalidate class="needs-validation" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
@@ -40,13 +40,32 @@
             </div> 
         </div>
 
-        <div class="mb-3">
-            <label for="location" class="form-label">Location</label>
-            <input name="listing[location]" value="<%=listing.location%>" class="form-control" required>
-            <div class="invalid-feedback">Location should be valid</div>
-        </div> 
+        <div class="row">
+            <div class="mb-3 col-md-6">
+                <label for="location" class="form-label">Location</label>
+                <input name="listing[location]" value="<%=listing.location%>" class="form-control" required>
+                <div class="invalid-feedback">Location should be valid</div>
+            </div>
+
+            <div class="mb-3 col-md-6">
+                <label for="category" class="form-label">Category</label>
+                <select name="listing[category]" class="form-select">
+                    <option value="trending" <%= listing.category === 'trending' ? 'selected' : '' %>>🔥 Trending</option>
+                    <option value="iconic-cities" <%= listing.category === 'iconic-cities' ? 'selected' : '' %>>🏙️ Iconic Cities</option>
+                    <option value="mountains" <%= listing.category === 'mountains' ? 'selected' : '' %>>⛰️ Mountains</option>
+                    <option value="castles" <%= listing.category === 'castles' ? 'selected' : '' %>>🏰 Castles</option>
+                    <option value="amazing-pools" <%= listing.category === 'amazing-pools' ? 'selected' : '' %>>🏊 Amazing Pools</option>
+                    <option value="camping" <%= listing.category === 'camping' ? 'selected' : '' %>>⛺ Camping</option>
+                    <option value="farms" <%= listing.category === 'farms' ? 'selected' : '' %>>🐄 Farms</option>
+                    <option value="arctic" <%= listing.category === 'arctic' ? 'selected' : '' %>>❄️ Arctic</option>
+                    <option value="domes" <%= listing.category === 'domes' ? 'selected' : '' %>>🛖 Domes</option>
+                    <option value="boats" <%= listing.category === 'boats' ? 'selected' : '' %>>🚢 Boats</option>
+                    <option value="rooms" <%= listing.category === 'rooms' ? 'selected' : '' %>>🛏️ Rooms</option>
+                </select>
+            </div>
+        </div>
        
-        <button class="btn btn-dark edit-btn mt-3">Edit</button>
+        <button class="btn btn-dark edit-btn mt-3">Save Changes</button>
     </Form>
 </div>
 </div>

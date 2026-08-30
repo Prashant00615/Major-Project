@@ -5,14 +5,17 @@
   "name": "majorproject",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
+    "start": "node app.js",
+    "init-db": "node init/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "Prashant",
   "license": "ISC",
   "dependencies": {
+    "@google/genai": "^2.19.0",
     "@mapbox/mapbox-sdk": "^0.16.0",
     "cloudinary": "^1.21.0",
     "connect-flash": "^0.1.1",

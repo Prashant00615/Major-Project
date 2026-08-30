@@ -1,0 +1,46 @@
+﻿<!-- Floating AI Chatbot Widget -->
+<button id="wanderbot-toggle" title="Chat with WanderBot AI">
+    <i class="fa-solid fa-wand-magic-sparkles"></i>
+    <span class="wanderbot-badge">AI</span>
+</button>
+
+<div id="wanderbot-window" aria-labelledby="wanderbot-title" role="dialog">
+    <div class="wanderbot-header">
+        <div class="wanderbot-title">
+            <span class="wanderbot-status-dot"></span>
+            <span>WanderBot AI Concierge</span>
+        </div>
+        <div class="wanderbot-controls">
+            <button id="wanderbot-clear" title="Clear Chat"><i class="fa-solid fa-rotate-right"></i></button>
+            <button id="wanderbot-close" title="Close"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+    </div>
+
+    <div class="wanderbot-body" id="wanderbot-body">
+        <div class="chat-msg bot">
+            👋 <strong>Hi there!</strong> I'm <strong>WanderBot</strong>, your AI Travel Assistant.<br><br>
+            Ask me anything about finding stays, custom itineraries, mountain cabins, pools, budgets, or local recommendations!
+        </div>
+
+        <div class="wanderbot-chips">
+            <button class="chip-btn" onclick="sendChipMessage('🏔️ Best mountain retreats')">🏔️ Mountain Cabins</button>
+            <button class="chip-btn" onclick="sendChipMessage('🏊 Stays with private pools')">🏊 Pool Villas</button>
+            <button class="chip-btn" onclick="sendChipMessage('❄️ Glass arctic igloos')">❄️ Arctic Igloos</button>
+            <button class="chip-btn" onclick="sendChipMessage('💰 Affordable budget stays under ₹1500')">💰 Under ₹1,500</button>
+            <button class="chip-btn" onclick="sendChipMessage('🗺️ 3-day itinerary planner')">🗺️ Trip Itinerary</button>
+        </div>
+    </div>
+
+    <div class="wanderbot-footer">
+        <input 
+            type="text" 
+            id="wanderbot-input" 
+            class="wanderbot-input" 
+            placeholder="Ask WanderBot anything..." 
+            autocomplete="off"
+        >
+        <button id="wanderbot-send" class="wanderbot-send" title="Send message">
+            <i class="fa-solid fa-paper-plane"></i>
+        </button>
+    </div>
+</div>

@@ -5,8 +5,28 @@ const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
 
 module.exports.index = async (req, res) => {
-    const allListings = await Listing.find({});
-    res.render("listings/index.ejs", { allListings });
+    const { category, search } = req.query;
+    let filter = {};
+
+    if (category && category.toLowerCase() !== "all") {
+        const catKey = category.toLowerCase().trim();
+        filter.category = catKey;
+    } else if (search && search.trim() !== "") {
+        const sRegex = new RegExp(search.trim(), "i");
+        filter.$or = [
+            { title: { $regex: sRegex } },
+            { description: { $regex: sRegex } },
+            { location: { $regex: sRegex } },
+            { country: { $regex: sRegex } }
+        ];
+    }
+
+    const allListings = await Listing.find(filter);
+    res.render("listings/index.ejs", { 
+        allListings, 
+        selectedCategory: category || "all", 
+        searchQuery: search || "" 
+    });
 };
 
 module.exports.renderNewForm = (req, res) => {
