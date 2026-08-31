@@ -1,7 +1,14 @@
 const Listing = require("../models/listing.js");
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
-const mapToken = process.env.MAP_TOKEN;
-const geocodingClient = mbxGeocoding({ accessToken: mapToken });               
+const mapToken = process.env.MAP_TOKEN || "pk.eyJ1IjoiZGVtbyIsImEiOiJjbGV4YW1wbGUifQ.demo";
+let geocodingClient = null;
+try {
+    if (mapToken) {
+        geocodingClient = mbxGeocoding({ accessToken: mapToken });
+    }
+} catch (e) {
+    console.warn("Mapbox client initialization skipped (no valid token):", e.message);
+}               
 
 
 module.exports.index = async (req, res) => {
